@@ -1,0 +1,32 @@
+import pandas as pd
+import os
+
+# Definir o caminho da pasta onde estão os arquivos TXT
+caminho = '/Python/aula 013/sinaisvitais003_100dias_DV2_RAxxx8.txt'
+
+# Inicializar as listas que vão armazenar os dados
+horas = []
+batimentos_cardiacos = []
+pressoes_arteriais = []
+temperaturas_corporais = []
+
+# Loop pelos arquivos TXT na pasta
+for arquivo in os.listdir(caminho):
+    if arquivo.endswith('.txt'):
+        # Abrir o arquivo TXT e ler as informações
+        with open(os.path.join(caminho, arquivo), 'r') as f:
+            linhas = f.readlines()
+            # Extrair as informações de cada linha do arquivo TXT
+            for linha in linhas:
+                dados = linha.split()
+                horas.append(dados[0])
+                batimentos_cardiacos.append(dados[1])
+                pressoes_arteriais.append(dados[2])
+                temperaturas_corporais.append(dados[3])
+
+# Criar o dataframe com as informações coletadas
+data = {'Hr': horas, 'Bpm': batimentos_cardiacos, 'PA': pressoes_arteriais, 'TC': temperaturas_corporais}
+df = pd.DataFrame(data)
+
+# Exportar o dataframe para arquivo CSV
+df.to_csv('python/dataset.csv', index=False)
